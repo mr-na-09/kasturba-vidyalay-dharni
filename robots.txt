@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mr-na-09.github.io/kasturba-vidyalay-dharni/sitemap.xml
