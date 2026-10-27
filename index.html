@@ -65,7 +65,7 @@
       <aside class="glass principal reveal" aria-label="मुख्याध्यापकांचे मनोगत">
         <div class="principal-photo" aria-hidden="true"><span>मु</span></div>
         <h3>मुख्याध्यापकांचे मनोगत</h3>
-        <blockquote>“प्रत्येक विद्यार्थ्यामध्ये एक अद्वितीय क्षमता दडलेली असते. तिला योग्य दिशा आणि संधी देणे हेच खरे शिक्षण आहे. आमचा प्रयत्न विद्यार्थ्यांना केवळ परीक्षेसाठी नव्हे, तर जीवनासाठी सक्षम करण्याचा आहे.”</blockquote>
+        <blockquote id="principalMsg">“प्रत्येक विद्यार्थ्यामध्ये एक अद्वितीय क्षमता दडलेली असते. तिला योग्य दिशा आणि संधी देणे हेच खरे शिक्षण आहे. आमचा प्रयत्न विद्यार्थ्यांना केवळ परीक्षेसाठी नव्हे, तर जीवनासाठी सक्षम करण्याचा आहे.”</blockquote>
         <p class="principal-name">मुख्याध्यापक<small>कस्तूरबा गांधी माध्यमिक विद्यालय, धारणी</small></p>
       </aside>
     </div>
@@ -74,7 +74,7 @@
   <section class="section section-alt" id="notices">
     <div class="container">
       <h2 class="section-title center reveal">सूचना फलक</h2>
-      <div class="notice-grid">
+      <div class="notice-grid" id="noticeGrid">
         <article class="notice reveal"><span class="chip">प्रवेश</span><h3>इयत्ता ८ वी ते १० वी प्रवेश सुरू</h3><p>ऑनलाईन नोंदणी अर्ज या संकेतस्थळावर उपलब्ध आहे.</p></article>
         <article class="notice reveal"><span class="chip">परीक्षा</span><h3>सत्र परीक्षा वेळापत्रक</h3><p>वेळापत्रक लवकरच शाळेच्या सूचना फलकावर लावण्यात येईल.</p></article>
         <article class="notice reveal"><span class="chip">पालक</span><h3>पालक सभा</h3><p>सर्व पालकांनी सभेस उपस्थित राहावे, तारीख शाळेकडून कळविण्यात येईल.</p></article>
@@ -96,6 +96,18 @@
         <figure class="g-item reveal"><img loading="lazy" src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=70" alt="शिकणारे विद्यार्थी"><figcaption><span>शिक्षण</span></figcaption></figure>
       </div>
     </div>
+  </section>
+
+  <section class="section" id="teachers" hidden>
+    <div class="container"><h2 class="section-title center reveal">आमचे शिक्षक</h2><div class="teacher-grid dyn-grid"></div></div>
+  </section>
+
+  <section class="section section-alt" id="facilities" hidden>
+    <div class="container"><h2 class="section-title center reveal">शालेय सुविधा</h2><div class="notice-grid dyn-grid"></div></div>
+  </section>
+
+  <section class="section" id="results" hidden>
+    <div class="container"><h2 class="section-title center reveal">शैक्षणिक निकाल</h2><div class="result-grid dyn-grid"></div></div>
   </section>
 
   <section class="section section-navy" id="admission">
@@ -139,6 +151,7 @@
       </div>
     </div>
   </section>
+  <section class="map-section" id="map" hidden><div class="map-frame"></div></section>
 </main>
 
 <footer class="footer" id="contact">
@@ -159,6 +172,7 @@
   <p class="copy">© <span id="year">२०२६</span> कस्तूरबा गांधी माध्यमिक विद्यालय, धारणी. सर्व हक्क राखीव.</p>
 </footer>
 
+<script src="school-data.js"></script>
 <script>
 (function () {
   var ADMIN = '919404111123';
@@ -260,5 +274,6 @@
   });
 })();
 </script>
+<script src="content.js"></script>
 </body>
 </html>
