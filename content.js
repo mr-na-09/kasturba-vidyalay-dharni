@@ -119,4 +119,25 @@
     sec.querySelector('.map-frame').appendChild(f);
     sec.hidden = false;
   }
+
+  fill('faq', 'प्रश्नोत्तरे', D.faq, function (q) {
+    var d = el('details', 'faq-item');
+    d.appendChild(el('summary', '', q.q));
+    d.appendChild(el('p', '', q.a));
+    return d;
+  });
+
+  var ad = D.admission || {};
+  var box = document.getElementById('admissionInfo');
+  var any = false;
+  if (ad.documents && ad.documents.length) {
+    box.appendChild(el('h3', '', 'आवश्यक कागदपत्रे'));
+    var ul = el('ul', 'ticks');
+    ad.documents.forEach(function (x) { ul.appendChild(el('li', '', x)); });
+    box.appendChild(ul);
+    any = true;
+  }
+  if (ad.lastDate) { box.appendChild(el('p', '', 'प्रवेशाची शेवटची तारीख: ' + ad.lastDate)); any = true; }
+  if (ad.fee) { box.appendChild(el('p', '', 'फी संबंधी माहिती: ' + ad.fee)); any = true; }
+  if (any) box.hidden = false;
 })();
