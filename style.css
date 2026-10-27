@@ -1,0 +1,723 @@
+/* ==========================================================================
+   1. DESIGN SYSTEM & VARIABLE TOKENS
+   ========================================================================== */
+:root {
+    --primary-color: #002147;       /* Deep Trustworthy Navy Blue */
+    --accent-color: #d4af37;        /* Premium Metallic Gold */
+    --accent-hover: #bfa030;        /* Deep Gold for hover states */
+    --text-dark: #1a202c;           /* Charcoal Dark Text for better readability */
+    --text-muted: #4a5568;          /* Elegant Muted Gray Text */
+    --text-light: #ffffff;          /* Crisp White Text */
+    --bg-light: #f7fafc;            /* Soft off-white layout background */
+    --bg-white: #ffffff;            /* Pure white for containers */
+    --success-color: #2f855a;       /* Academic Emerald Green */
+    --error-color: #e53e3e;         /* Crimson Red for form alerts */
+    --font-marathi: 'Noto Sans Devanagari', sans-serif;
+    --font-english: 'Poppins', sans-serif;
+    --box-shadow: 0 10px 30px -5px rgba(0, 33, 71, 0.08), 0 4px 6px -2px rgba(0, 33, 71, 0.04);
+    --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --border-radius: 8px;
+}
+
+/* ==========================================================================
+   2. CORE SYSTEM RESETS
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-marathi);
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* ==========================================================================
+   3. HEADER & PREMIUM STICKY NAVBAR
+   ========================================================================== */
+.main-header {
+    background-color: var(--bg-white);
+}
+
+.top-bar {
+    background: linear-gradient(90deg, var(--primary-color) 0%, #003366 100%);
+    color: var(--text-light);
+    padding: 10px 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-bottom: 3px solid var(--accent-color);
+}
+
+.bar-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.udise-badge {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-family: var(--font-english);
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.header-branding {
+    padding: 30px 0;
+    background: radial-gradient(circle at top right, rgba(214, 175, 87, 0.05), transparent 60%);
+}
+
+.branding-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.school-logo-text h1 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+    font-weight: 800;
+}
+
+.sub-location {
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+
+/* Navigation Menu */
+.navbar {
+    background-color: var(--primary-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 2px solid var(--accent-color);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: center;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li a {
+    display: block;
+    color: var(--text-light);
+    padding: 18px 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: var(--transition);
+    position: relative;
+}
+
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background-color: var(--accent-color);
+    transition: var(--transition);
+}
+
+.nav-links li a:hover {
+    color: var(--accent-color);
+}
+
+.nav-links li a:hover::after {
+    width: 70%;
+}
+
+/* ==========================================================================
+   4. HERO BANNER & MOTTO SYSTEM
+   ========================================================================== */
+.hero-section {
+    position: relative;
+    background: #001530 linear-gradient(135deg, #002147 0%, #001025 100%);
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    text-align: center;
+    padding: 60px 0;
+    overflow: hidden;
+}
+
+/* Decorative Background Elements */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(214, 175, 87, 0.08) 0%, transparent 75%);
+    top: -10%;
+    right: -5%;
+    border-radius: 50%;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 900px;
+}
+
+.motto-box {
+    border: 2px solid var(--accent-color);
+    background-color: rgba(212, 175, 55, 0.06);
+    backdrop-filter: blur(4px);
+    padding: 25px 50px;
+    display: inline-block;
+    margin-bottom: 35px;
+    border-radius: var(--border-radius);
+    box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+.sanskrit-motto {
+    font-size: 2.8rem;
+    color: var(--accent-color);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.motto-translation {
+    font-size: 1.2rem;
+    color: #e2e8f0;
+    font-weight: 500;
+}
+
+.hero-desc {
+    font-size: 1.4rem;
+    margin-bottom: 35px;
+    color: #cbd5e0;
+    font-weight: 400;
+}
+
+.cta-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent-color) 0%, #bfa030 100%);
+    color: var(--primary-color);
+    padding: 16px 36px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+    transition: var(--transition);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+    background: var(--text-light);
+    color: var(--primary-color);
+}
+
+/* ==========================================================================
+   5. STRUCTURAL SECTIONS & ARCHITECTURE
+   ========================================================================== */
+section {
+    padding: 85px 0;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 50px;
+    position: relative;
+    padding-bottom: 15px;
+    font-weight: 800;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 4px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+.grid-two-col {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 50px;
+    align-items: start;
+}
+
+/* ==========================================================================
+   6. ABOUT US & VISION-MISSION CARDS
+   ========================================================================== */
+.about-narrative h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.about-narrative p {
+    margin-bottom: 20px;
+    color: var(--text-muted);
+    text-align: justify;
+}
+
+.vision-mission-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.vm-card {
+    background-color: var(--bg-white);
+    padding: 30px;
+    border-left: 6px solid var(--accent-color);
+    border-radius: 4px var(--border-radius) var(--border-radius) 4px;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+}
+
+.vm-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 33, 71, 0.1);
+}
+
+.vm-card h4 {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.vm-card p {
+    color: var(--text-muted);
+    font-size: 0.98rem;
+}
+
+/* ==========================================================================
+   7. DYNAMIC NOTICE BOARD DASHBOARD
+   ========================================================================== */
+.notice-section {
+    background-color: #f0f4f8;
+}
+
+.notice-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.notice-card {
+    display: flex;
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    border: 1px solid rgba(0, 33, 71, 0.03);
+}
+
+.notice-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 12px 25px rgba(0, 33, 71, 0.08);
+}
+
+.notice-card.highlight {
+    border-left: 5px solid var(--accent-color);
+}
+
+.notice-date {
+    background: linear-gradient(180deg, var(--primary-color) 0%, #003366 100%);
+    color: var(--text-light);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    text-align: center;
+}
+
+.notice-date .day {
+    font-family: var(--font-english);
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent-color);
+}
+
+.notice-date .month {
+    font-size: 0.95rem;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.notice-details {
+    padding: 22px 25px;
+    flex-grow: 1;
+}
+
+.notice-details h3 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+.notice-details p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.badge-new {
+    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    color: var(--text-light);
+    font-size: 0.75rem;
+    padding: 3px 8px;
+border-radius: 4px;
+font-weight: 700;
+display: inline-block;
+margin-bottom: 8px;
+box-shadow: 0 2px 4px rgba(229, 62, 62, 0.2);
+}
+/* ==========================================================================
+8. ADMISSIONS INFO & DOCS
+========================================================================== */
+.admission-rules h3, .required-docs h3 {
+color: var(--primary-color);
+margin-bottom: 20px;
+font-size: 1.4rem;
+}
+.admission-rules ul {
+list-style: none;
+}
+.admission-rules ul li {
+position: relative;
+padding-left: 30px;
+margin-bottom: 15px;
+color: var(--text-muted);
+}
+.admission-rules ul li::before {
+content: "✦";
+position: absolute;
+left: 5px;
+color: var(--accent-color);
+font-size: 1.1rem;
+}
+.docs-list {
+list-style: none;
+}
+.docs-list li {
+background-color: var(--bg-white);
+padding: 15px 20px;
+margin-bottom: 12px;
+border-radius: var(--border-radius);
+border-left: 5px solid var(--primary-color);
+box-shadow: var(--box-shadow);
+font-weight: 600;
+color: var(--text-dark);
+transition: var(--transition);
+}
+.docs-list li:hover {
+border-left-color: var(--accent-color);
+background-color: #fffdf5;
+}
+/* ==========================================================================
+9. INTERACTIVE STUDENT REGISTRATION FORM COMPONENT
+========================================================================== */
+.registration-section {
+background: #001c3d linear-gradient(145deg, #002147 0%, #00132b 100%);
+color: var(--text-light);
+position: relative;
+}
+.registration-section .section-title {
+color: var(--text-light);
+}
+.registration-section .section-title::after {
+background-color: var(--accent-color);
+}
+.form-max-width {
+max-width: 800px;
+}
+.form-intro-text {
+text-align: center;
+margin-bottom: 40px;
+color: #cbd5e0;
+font-size: 1.05rem;
+}
+#admissionForm {
+background-color: var(--bg-white);
+color: var(--text-dark);
+padding: 45px;
+border-radius: var(--border-radius);
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+}
+.form-group {
+margin-bottom: 25px;
+}
+.form-row {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 25px;
+}
+label {
+display: block;
+margin-bottom: 10px;
+font-weight: 600;
+color: var(--primary-color);
+font-size: 0.95rem;
+}
+.required {
+color: var(--error-color);
+margin-left: 4px;
+}
+input[type="text"],
+input[type="tel"],
+select,
+textarea {
+width: 100%;
+padding: 14px 16px;
+border: 2px solid #e2e8f0;
+border-radius: var(--border-radius);
+font-size: 1rem;
+font-family: var(--font-marathi);
+transition: var(--transition);
+background-color: #f8fafc;
+}
+input:focus, select:focus, textarea:focus {
+outline: none;
+border-color: var(--accent-color);
+background-color: var(--bg-white);
+box-shadow: 0 0 0 4px rgba(214, 175, 87, 0.15);
+}
+textarea {
+resize: vertical;
+min-height: 110px;
+}
+.submit-btn {
+width: 100%;
+background: linear-gradient(135deg, var(--accent-color) 0%, #bfa030 100%);
+color: var(--primary-color);
+border: none;
+padding: 16px;
+font-size: 1.15rem;
+font-weight: 700;
+border-radius: var(--border-radius);
+cursor: pointer;
+transition: var(--transition);
+box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+}
+.submit-btn:hover {
+background: var(--primary-color);
+color: var(--text-light);
+transform: translateY(-2px);
+box-shadow: 0 8px 20px rgba(0, 33, 71, 0.3);
+}
+/* Success Validation Target Message Dynamic Styles */
+.success-alert {
+background-color: var(--bg-white);
+color: var(--text-dark);
+padding: 50px 40px;
+border-radius: var(--border-radius);
+text-align: center;
+box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+animation: fadeIn 0.5s ease;
+}
+.success-icon {
+width: 80px;
+height: 80px;
+background-color: #e6fffa;
+color: var(--success-color);
+font-size: 3rem;
+line-height: 80px;
+border-radius: 50%;
+margin: 0 auto 25px;
+}
+.success-alert h3 {
+color: var(--success-color);
+margin-bottom: 15px;
+font-size: 1.8rem;
+font-weight: 800;
+}
+.success-alert p {
+color: var(--text-muted);
+margin-bottom: 30px;
+font-size: 1.05rem;
+}
+.reset-btn {
+background-color: var(--primary-color);
+color: var(--text-light);
+border: none;
+padding: 12px 30px;
+font-size: 1rem;
+font-weight: 600;
+border-radius: var(--border-radius);
+cursor: pointer;
+transition: var(--transition);
+}
+.reset-btn:hover {
+background-color: var(--accent-color);
+color: var(--primary-color);
+}
+.hidden {
+display: none;
+}
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+/* ==========================================================================
+10. GLOBAL FOOTER SYSTEM
+========================================================================== */
+.main-footer {
+background-color: #070f1e;
+color: #94a3b8;
+padding: 60px 0 25px;
+border-top: 4px solid var(--accent-color);
+}
+.footer-grid {
+display: grid;
+grid-template-columns: 2fr 1fr;
+gap: 50px;
+padding-bottom: 40px;
+border-bottom: 1px solid #1e293b;
+}
+.footer-info h4, .footer-links h4 {
+color: var(--text-light);
+margin-bottom: 20px;
+font-size: 1.3rem;
+font-weight: 700;
+}
+.footer-info p {
+margin-bottom: 10px;
+font-size: 0.95rem;
+}
+.footer-links ul {
+list-style: none;
+}
+.footer-links ul li {
+margin-bottom: 12px;
+}
+.footer-links ul li a {
+color: #94a3b8;
+text-decoration: none;
+transition: var(--transition);
+font-size: 0.95rem;
+display: inline-block;
+}
+.footer-links ul li a:hover {
+color: var(--accent-color);
+transform: translateX(4px);
+}
+.footer-bottom {
+text-align: center;
+padding-top: 25px;
+font-size: 0.9rem;
+color: #64748b;
+}
+/* ==========================================================================
+11. RESPONSIVE BREAKPOINTS & LAYOUT ENGINE (Mobile & Tablet)
+========================================================================== */
+@media (max-width: 992px) {
+html {
+font-size: 15px;
+}
+.grid-two-col {
+grid-template-columns: 1fr;
+gap: 40px;
+}
+.footer-grid {
+grid-template-columns: 1fr;
+gap: 30px;
+}
+}
+@media (max-width: 768px) {
+.school-logo-text h1 {
+font-size: 1.8rem;
+}
+.sub-location {
+font-size: 1rem;
+}
+.sanskrit-motto {
+font-size: 2rem;
+}
+.motto-box {
+padding: 15px 25px;
+}
+.nav-links {
+flex-direction: column;
+width: 100%;
+text-align: center;
+}
+.nav-links li a {
+padding: 14px;
+border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav-links li a::after {
+display: none; /* Hide hover underline effects on mobile layouts */
+}
+.form-row {
+grid-template-columns: 1fr;
+gap: 0;
+}
+#admissionForm {
+padding: 25px 20px;
+}
+.notice-card {
+flex-direction: column;
+}
+.notice-date {
+min-width: 100%;
+padding: 12px;
+flex-direction: row;
+gap: 10px;
+}
+.notice-date .day {
+font-size: 1.4rem;
+}
+}
