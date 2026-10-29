@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>व्यवस्थापक पॅनल</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --navy: #002147; --gold: #d4af37; --bg: #f4f7f9; --ink: #23272b; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Noto Sans Devanagari', system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+header { position: sticky; top: 0; z-index: 10; background: var(--navy); color: #fff; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+header h1 { margin: 0; font-size: 1.05rem; color: var(--gold); }
+.bar { display: flex; gap: 8px; }
+main { width: min(960px, 94%); margin: 20px auto 80px; }
+.card { background: #fff; border-radius: 14px; padding: 18px; margin-bottom: 18px; box-shadow: 0 6px 22px rgba(0, 33, 71, .1); }
+h2 { margin: 0 0 8px; font-size: 1.05rem; color: var(--navy); }
+label { display: block; font-weight: 600; font-size: .88rem; margin: 12px 0 4px; }
+input, textarea { width: 100%; padding: 10px 12px; font: inherit; border: 2px solid #d9e0e6; border-radius: 10px; background: #fff; }
+input[type=color] { padding: 2px; height: 42px; width: 90px; }
+input[type=file] { border: 0; padding: 4px 0; }
+input:focus, textarea:focus { outline: none; border-color: var(--gold); }
+textarea { min-height: 84px; resize: vertical; }
+button { font: inherit; font-weight: 600; cursor: pointer; border: 0; border-radius: 999px; padding: 9px 20px; background: linear-gradient(135deg, #e6c75a, var(--gold)); color: var(--navy); }
+button.ghost { background: #e9eff5; }
+button.danger { background: #fde4e4; color: #b42318; padding: 6px 14px; }
+button:disabled { opacity: .5; cursor: wait; }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.tabs button { background: #e9eff5; }
+.tabs button.on { background: var(--navy); color: #fff; }
+.item { border: 1px solid #e3e9ef; border-radius: 12px; padding: 4px 14px 14px; margin: 12px 0; background: #fafcfd; }
+.item .top { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-weight: 700; color: var(--navy); }
+.thumb { display: block; width: 120px; height: 80px; object-fit: cover; border-radius: 8px; margin: 6px 0; background: #e9eff5; }
+#msg { display: none; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; font-weight: 600; }
+#msg.ok { display: block; background: #e3f6e8; color: #17653a; }
+#msg.err { display: block; background: #fde4e4; color: #b42318; }
+.hint { font-size: .85rem; color: #5b646d; margin: 4px 0; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header><h1>व्यवस्थापक पॅनल</h1><div class="bar"><button id="saveAll" hidden>सर्व सेव्ह करा</button><button class="ghost" id="logout" hidden>बाहेर पडा</button></div></header>
+<main>
+  <div id="msg" role="status"></div>
+  <section class="card" id="loginCard">
+    <h2>लॉगिन</h2>
+    <label for="owner">GitHub वापरकर्ता नाव</label><input id="owner" value="mr-na-09">
+    <label for="repo">रिपॉझिटरी नाव</label><input id="repo" value="kasturba-vidyalay-dharni">
+    <label for="branch">शाखा (branch)</label><input id="branch" value="main">
+    <label for="token">ऍक्सेस टोकन</label><input id="token" type="password" autocomplete="off" placeholder="github_pat_...">
+    <p class="hint">टोकन फक्त या उपकरणाच्या ब्राउझरमध्ये राहते. ते कोणालाही देऊ नका.</p>
+    <p><button id="login">लॉगिन करा</button></p>
+  </section>
+  <section id="panel" hidden>
+    <div class="tabs" id="tabs"></div>
+    <div id="pane"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var DATA_PATH = 'school-data.js';
+  var T = 'text', A = 'area', I = 'image', C = 'color', L = 'list';
+  var SCHEMA = [
+    ['साइट आणि रंग', [
+      { k: 'site.name', l: 'शाळेचे नाव', t: T }, { k: 'site.tagline', l: 'उपशीर्षक (नावाखालील ओळ)', t: T },
+      { k: 'site.logo', l: 'लोगो', t: I }, { k: 'theme.navy', l: 'मुख्य रंग', t: C }, { k: 'theme.gold', l: 'सोनेरी रंग', t: C },
+      { k: 'footer.about', l: 'तळाची (फुटर) ओळ', t: T }]],
+    ['मुख्य पृष्ठ', [
+      { k: 'hero.tag', l: 'वरची छोटी ओळ', t: T }, { k: 'hero.title1', l: 'शीर्षक – सुरुवात', t: T },
+      { k: 'hero.gold', l: 'शीर्षक – सोनेरी शब्द', t: T }, { k: 'hero.title2', l: 'शीर्षक – शेवट', t: T },
+      { k: 'hero.lead', l: 'परिचय ओळ', t: A },
+      { k: 'stats', l: 'आकडेवारी', t: L, sub: [{ k: 'value', l: 'आकडा', t: T }, { k: 'label', l: 'नाव', t: T }] }]],
+    ['आमच्याबद्दल', [
+      { k: 'titles.about', l: 'विभागाचे शीर्षक', t: T },
+      { k: 'about.paragraphs', l: 'परिच्छेद', t: L, item: A }, { k: 'about.points', l: 'मुख्य मुद्दे', t: L, item: T }]],
+    ['मुख्याध्यापक', [
+      { k: 'principal.title', l: 'शीर्षक', t: T }, { k: 'principal.name', l: 'नाव', t: T },
+      { k: 'principal.message', l: 'संदेश', t: A }, { k: 'principal.photo', l: 'फोटो', t: I }]],
+    ['सूचना फलक', [
+      { k: 'titles.notices', l: 'विभागाचे शीर्षक', t: T },
+      { k: 'notices', l: 'सूचना', t: L, sub: [{ k: 'tag', l: 'प्रकार (उदा. परीक्षा)', t: T }, { k: 'title', l: 'शीर्षक', t: T }, { k: 'text', l: 'मजकूर', t: A }] }]],
+    ['छायाचित्रे', [
+      { k: 'titles.gallery', l: 'विभागाचे शीर्षक', t: T },
+      { k: 'gallery', l: 'छायाचित्रे', t: L, sub: [{ k: 'src', l: 'फोटो', t: I }, { k: 'caption', l: 'शीर्षक', t: T }] }]],
+    ['शिक्षक', [
+      { k: 'titles.teachers', l: 'विभागाचे शीर्षक', t: T },
+      { k: 'teachers', l: 'शिक्षक', t: L, sub: [{ k: 'name', l: 'नाव', t: T }, { k: 'role', l: 'पद', t: T }, { k: 'subject', l: 'विषय', t: T }, { k: 'photo', l: 'फोटो', t: I }] }]],
+    ['सुविधा आणि निकाल', [
+      { k: 'titles.facilities', l: 'सुविधा – शीर्षक', t: T },
+      { k: 'facilities', l: 'सुविधा', t: L, sub: [{ k: 'title', l: 'नाव', t: T }, { k: 'text', l: 'माहिती', t: A }] },
+      { k: 'titles.results', l: 'निकाल – शीर्षक', t: T },
+      { k: 'results', l: 'निकाल / उपलब्धी', t: L, sub: [{ k: 'value', l: 'आकडा (उदा. ९२%)', t: T }, { k: 'label', l: 'वर्णन', t: T }] }]],
+    ['प्रवेश', [
+      { k: 'titles.process', l: 'प्रक्रिया – शीर्षक', t: T },
+      { k: 'admission.steps', l: 'प्रवेशाचे टप्पे', t: L, sub: [{ k: 'title', l: 'टप्पा', t: T }, { k: 'text', l: 'माहिती', t: A }] },
+      { k: 'admission.documents', l: 'आवश्यक कागदपत्रे', t: L, item: T },
+      { k: 'admission.lastDate', l: 'शेवटची तारीख', t: T }, { k: 'admission.fee', l: 'फी संबंधी माहिती', t: T },
+      { k: 'titles.admission', l: 'नोंदणी फॉर्म – शीर्षक', t: T }, { k: 'admission.text', l: 'नोंदणी फॉर्म – वर्णन', t: A }]],
+    ['प्रश्नोत्तरे', [
+      { k: 'titles.faq', l: 'विभागाचे शीर्षक', t: T },
+      { k: 'faq', l: 'प्रश्न व उत्तरे', t: L, sub: [{ k: 'q', l: 'प्रश्न', t: T }, { k: 'a', l: 'उत्तर', t: A }] }]],
+    ['संपर्क', [
+      { k: 'contact.address', l: 'पत्ता', t: A }, { k: 'contact.phone', l: 'फोन (उदा. +919404111123)', t: T },
+      { k: 'contact.whatsapp', l: 'WhatsApp क्रमांक (91 सह, फक्त अंक)', t: T }, { k: 'contact.email', l: 'ई-मेल', t: T },
+      { k: 'contact.mapQuery', l: 'नकाशावर शोधायचे नाव', t: T }]]
+  ];
+
+  var cfg = JSON.parse(localStorage.getItem('adminCfg') || 'null');
+  var data = null, current = 0, dirty = false;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function say(text, kind) {
+    var m = $('msg');
+    m.textContent = text; m.className = kind || 'ok';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (kind !== 'err') setTimeout(function () { m.className = ''; }, 7000);
+  }
+  function getp(o, p) { return p.split('.').reduce(function (a, k) { return a == null ? a : a[k]; }, o); }
+  function setp(o, p, v) {
+    var ks = p.split('.'), last = ks.pop();
+    ks.forEach(function (k) { if (typeof o[k] !== 'object' || o[k] === null) o[k] = {}; o = o[k]; });
+    o[last] = v;
+  }
+
+  function api(path, opts) {
+    opts = opts || {};
+    var url = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/' + path;
+    if (!opts.method) url += '?ref=' + encodeURIComponent(cfg.branch) + '&t=' + Date.now();
+    return fetch(url, {
+      method: opts.method || 'GET',
+      headers: { 'Authorization': 'Bearer ' + cfg.token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: opts.body ? JSON.stringify(opts.body) : undefined
+    }).then(function (r) {
+      if (!r.ok) return r.json().catch(function () { return {}; }).then(function (j) { throw new Error(j.message || ('त्रुटी ' + r.status)); });
+      return r.json();
+    });
+  }
+  function toB64(str) {
+    var b = new TextEncoder().encode(str), s = '';
+    for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]);
+    return btoa(s);
+  }
+  function fromB64(b64) {
+    var s = atob(b64.replace(/\s/g, '')), b = new Uint8Array(s.length);
+    for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i);
+    return new TextDecoder().decode(b);
+  }
+
+  function shrink(file) {
+    return new Promise(function (res, rej) {
+      var img = new Image(), url = URL.createObjectURL(file);
+      img.onload = function () {
+        var k = Math.min(1, 1400 / Math.max(img.width, img.height)), cv = document.createElement('canvas');
+        cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
+        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+        URL.revokeObjectURL(url);
+        res(cv.toDataURL('image/jpeg', 0.82).split(',')[1]);
+      };
+      img.onerror = function () { rej(new Error('फोटो वाचता आला नाही')); };
+      img.src = url;
+    });
+  }
+  function upload(file) {
+    return shrink(file).then(function (b64) {
+      var name = 'images/photo-' + Date.now() + '-' + Math.floor(Math.random() * 1000) + '.jpg';
+      return api(name, { method: 'PUT', body: { message: 'Add photo', content: b64, branch: cfg.branch } }).then(function () { return name; });
+    });
+  }
+
+  function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
+
+  function field(f, get, set) {
+    var w = mk('div');
+    w.appendChild(mk('label', '', f.l));
+    var v = get();
+    if (f.t === I) {
+      var im = mk('img', 'thumb');
+      if (v) im.src = v; else im.style.visibility = 'hidden';
+      var fi = mk('input'); fi.type = 'file'; fi.accept = 'image/*';
+      fi.addEventListener('change', function () {
+        if (!fi.files[0]) return;
+        fi.disabled = true; say('फोटो अपलोड होत आहे…');
+        upload(fi.files[0]).then(function (path) {
+          set(path); im.src = path; im.style.visibility = 'visible'; dirty = true;
+          say('फोटो अपलोड झाला. आता "सर्व सेव्ह करा" दाबा.');
+        }).catch(function (e) { say(e.message, 'err'); }).then(function () { fi.disabled = false; });
+      });
+      var rm = mk('button', 'danger', 'फोटो काढा');
+      rm.addEventListener('click', function () { set(''); im.style.visibility = 'hidden'; dirty = true; });
+      w.appendChild(im); w.appendChild(fi); w.appendChild(rm);
+      return w;
+    }
+    var inp = f.t === A ? mk('textarea') : mk('input');
+    if (f.t === C) inp.type = 'color';
+    inp.value = v == null ? (f.t === C ? '#000000' : '') : v;
+    inp.addEventListener('input', function () { set(inp.value); dirty = true; });
+    w.appendChild(inp);
+    return w;
+  }
+
+  function listField(f) {
+    var w = mk('div');
+    w.appendChild(mk('label', '', f.l));
+    var arr = getp(data, f.k);
+    if (!Array.isArray(arr)) { arr = []; setp(data, f.k, arr); }
+    var box = mk('div');
+    function draw() {
+      box.textContent = '';
+      arr.forEach(function (it, i) {
+        var row = mk('div', 'item'), top = mk('div', 'top');
+        top.appendChild(mk('span', '', '#' + (i + 1)));
+        var del = mk('button', 'danger', 'हटवा');
+        del.addEventListener('click', function () { if (confirm('हे हटवायचे?')) { arr.splice(i, 1); dirty = true; draw(); } });
+        top.appendChild(del); row.appendChild(top);
+        if (f.sub) {
+          f.sub.forEach(function (sf) { row.appendChild(field(sf, function () { return it[sf.k]; }, function (v) { it[sf.k] = v; })); });
+        } else {
+          row.appendChild(field({ l: 'मजकूर', t: f.item }, function () { return it; }, function (v) { arr[i] = v; }));
+        }
+        box.appendChild(row);
+      });
+    }
+    draw();
+    var add = mk('button', 'ghost', '+ नवीन जोडा');
+    add.addEventListener('click', function () {
+      if (f.sub) { var o = {}; f.sub.forEach(function (s) { o[s.k] = ''; }); arr.push(o); } else arr.push('');
+      dirty = true; draw();
+    });
+    w.appendChild(box); w.appendChild(add);
+    return w;
+  }
+
+  function renderPane() {
+    var pane = $('pane');
+    pane.textContent = '';
+    var card = mk('div', 'card');
+    card.appendChild(mk('h2', '', SCHEMA[current][0]));
+    SCHEMA[current][1].forEach(function (f) {
+      card.appendChild(f.t === L ? listField(f) : field(f, function () { return getp(data, f.k); }, function (v) { setp(data, f.k, v); }));
+    });
+    pane.appendChild(card);
+  }
+  function renderTabs() {
+    var t = $('tabs');
+    t.textContent = '';
+    SCHEMA.forEach(function (s, i) {
+      var b = mk('button', i === current ? 'on' : '', s[0]);
+      b.addEventListener('click', function () { current = i; renderTabs(); renderPane(); });
+      t.appendChild(b);
+    });
+  }
+
+  function load() {
+    return api(DATA_PATH).then(function (f) {
+      var w = {};
+      new Function('window', fromB64(f.content))(w);
+      data = w.SCHOOL || {};
+      renderTabs(); renderPane();
+    });
+  }
+  function save() {
+    var btn = $('saveAll');
+    btn.disabled = true;
+    api(DATA_PATH).then(function (f) {
+      var text = 'window.SCHOOL = ' + JSON.stringify(data, null, 2) + ';\n';
+      return api(DATA_PATH, { method: 'PUT', body: { message: 'Update site content', content: toB64(text), sha: f.sha, branch: cfg.branch } });
+    }).then(function () { dirty = false; say('सेव्ह झाले. बदल १–२ मिनिटांत साइटवर दिसतील.'); })
+      .catch(function (e) { say(e.message, 'err'); }).then(function () { btn.disabled = false; });
+  }
+
+  function enter() {
+    $('loginCard').hidden = true; $('panel').hidden = false;
+    $('logout').hidden = false; $('saveAll').hidden = false;
+    load().catch(function (e) { say(e.message + ' — टोकन किंवा रिपॉझिटरीचे नाव तपासा.', 'err'); exit(); });
+  }
+  function exit() {
+    localStorage.removeItem('adminCfg'); cfg = null;
+    $('loginCard').hidden = false; $('panel').hidden = true;
+    $('logout').hidden = true; $('saveAll').hidden = true;
+  }
+  $('login').addEventListener('click', function () {
+    cfg = { owner: $('owner').value.trim(), repo: $('repo').value.trim(), branch: $('branch').value.trim() || 'main', token: $('token').value.trim() };
+    if (!cfg.owner || !cfg.repo || !cfg.token) { say('सर्व माहिती भरा.', 'err'); return; }
+    localStorage.setItem('adminCfg', JSON.stringify(cfg));
+    $('token').value = '';
+    enter();
+  });
+  $('logout').addEventListener('click', function () {
+    if (dirty && !confirm('सेव्ह न केलेले बदल जातील. बाहेर पडायचे?')) return;
+    exit();
+  });
+  $('saveAll').addEventListener('click', save);
+  window.addEventListener('beforeunload', function (e) { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+  if (cfg) { $('owner').value = cfg.owner; $('repo').value = cfg.repo; $('branch').value = cfg.branch; enter(); }
+})();
+</script>
+</body>
+</html>
