@@ -76,10 +76,6 @@ window.SCHOOL = {
   ],
   "gallery": [
     {
-      "src": "images/photo-1793269045437-607.jpg",
-      "caption": "यशाचा क्षण"
-    },
-    {
       "src": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=70",
       "caption": "वर्गखोली"
     },
@@ -94,10 +90,6 @@ window.SCHOOL = {
     {
       "src": "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=70",
       "caption": "शिक्षण"
-    },
-    {
-      "src": "images/photo-1793269025300-438.jpg",
-      "caption": "my"
     }
   ],
   "teachers": [],
