@@ -97,7 +97,7 @@ window.SCHOOL = {
     },
     {
       "src": "images/photo-1793269025300-438.jpg",
-      "caption": ""
+      "caption": "my"
     }
   ],
   "teachers": [],
