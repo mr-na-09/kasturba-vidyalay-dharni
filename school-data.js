@@ -76,7 +76,7 @@ window.SCHOOL = {
   ],
   "gallery": [
     {
-      "src": "images/photo-1793269002052-268.jpg",
+      "src": "images/photo-1793269045437-607.jpg",
       "caption": "यशाचा क्षण"
     },
     {
@@ -94,6 +94,10 @@ window.SCHOOL = {
     {
       "src": "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=70",
       "caption": "शिक्षण"
+    },
+    {
+      "src": "images/photo-1793269025300-438.jpg",
+      "caption": ""
     }
   ],
   "teachers": [],
