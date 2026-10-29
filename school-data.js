@@ -166,7 +166,7 @@ window.SCHOOL = {
   ],
   "contact": {
     "address": "कस्तूरबा गांधी माध्यमिक विद्यालय, मु. पो. ता. धारणी, जि. अमरावती, महाराष्ट्र – ४४४७०२",
-    "phone": "+919404111123",
+    "phone": "+919403884368",
     "whatsapp": "919404111123",
     "email": "",
     "mapQuery": "Kasturba Gandhi Madhyamik School, Dharni"
