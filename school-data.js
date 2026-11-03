@@ -2,7 +2,7 @@ window.SCHOOL = {
   "site": {
     "name": "कस्तूरबा गांधी माध्यमिक विद्यालय",
     "tagline": "धारणी · स्थापना १९९१",
-    "logo": ""
+    "logo": "images/photo-1793698357633-333.jpg"
   },
   "theme": {
     "navy": "#002147",
